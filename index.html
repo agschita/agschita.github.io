@@ -3,56 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photo Gallery</title>
+    <title>Game Photo Gallery</title>
     <style>
+        /* Basic styling with more vibrant colors */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        /* Navigation bar styling with color gradient */
+        .navbar {
+            background: linear-gradient(90deg, #3498db, #e74c3c);
+            padding: 15px;
+            text-align: center;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .navbar a:hover {
+            color: #f1c40f;
+        }
+
+        /* Section styling with colored backgrounds */
+        section {
+            padding: 20px;
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        section:nth-child(odd) {
             background-color: #f9f9f9;
         }
 
-        header {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 20px 0;
+        h2 {
+            color: #e74c3c;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 2em;
+        p {
+            color: #2c3e50;
         }
 
-        .gallery {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 10px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            grid-gap: 10px;
+        /* Gallery container styling */
+        .gallery-container {
+            position: relative;
+            max-width: 1000px;
+            margin: auto;
         }
 
-        .gallery img {
+        .gallery-container img {
             width: 100%;
-            height: auto;
             border-radius: 10px;
-            transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        .gallery img:hover {
-            transform: scale(1.05);
-            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+        /* Navigation buttons */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
         }
 
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0,0,0,0.8);
+        }
+
+        /* Footer styling with color gradient */
         footer {
-            background-color: #333;
-            color: #fff;
             text-align: center;
-            padding: 10px 0;
-            position: sticky;
-            bottom: 0;
-            width: 100%;
+            background: linear-gradient(90deg, #3498db, #e74c3c);
+            color: white;
+            padding: 15px;
+            font-size: 0.9em;
         }
 
         footer p {
@@ -61,21 +107,69 @@
     </style>
 </head>
 <body>
-    <header>
-        <h1>My Photo Gallery</h1>
-    </header>
-
-    <div class="gallery">
-        <img src="https://via.placeholder.com/200" alt="Photo 1">
-        <img src="https://via.placeholder.com/200" alt="Photo 2">
-        <img src="https://via.placeholder.com/200" alt="Photo 3">
-        <img src="https://via.placeholder.com/200" alt="Photo 4">
-        <img src="https://via.placeholder.com/200" alt="Photo 5">
-        <img src="https://via.placeholder.com/200" alt="Photo 6">
+    <!-- Navigation bar with gradient background -->
+    <div class="navbar">
+        <a href="#about">About</a>
+        <a href="#the-game">The Game</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact-us">Contact Us</a>
     </div>
 
+    <!-- About section -->
+    <section id="about">
+        <h2>About</h2>
+        <p>Welcome to our Game Photo Gallery website. This site showcases images from our game and provides information about the game, the team, and how to contact us.</p>
+    </section>
+
+    <!-- The Game section -->
+    <section id="the-game">
+        <h2>The Game</h2>
+        <p>Our game is an exciting adventure through a world full of mysteries and challenges. Stay tuned for more details and upcoming events.</p>
+    </section>
+
+    <!-- Gallery section with single large image display -->
+    <section id="gallery">
+        <h2>Gallery</h2>
+        <div class="gallery-container">
+            <img src="https://via.placeholder.com/1000x600" id="currentImage" alt="Gallery Image">
+            <a class="prev" onclick="changeImage(-1)">&#10094;</a>
+            <a class="next" onclick="changeImage(1)">&#10095;</a>
+        </div>
+    </section>
+
+    <!-- Contact Us section -->
+    <section id="contact-us">
+        <h2>Contact Us</h2>
+        <p>If you have any questions or feedback, please feel free to contact us at contact@gamegallery.com.</p>
+    </section>
+
+    <!-- Footer with gradient background -->
     <footer>
-        <p>&copy; 2024 My Photo Gallery. All rights reserved.</p>
+        <p>&copy; 2024 Game Photo Gallery. All rights reserved.</p>
     </footer>
+
+    <script>
+        let currentIndex = 0;
+        const images = [
+            "https://via.placeholder.com/1000x600?text=Image+1",
+            "https://via.placeholder.com/1000x600?text=Image+2",
+            "https://via.placeholder.com/1000x600?text=Image+3",
+            "https://via.placeholder.com/1000x600?text=Image+4",
+            "https://via.placeholder.com/1000x600?text=Image+5",
+            "https://via.placeholder.com/1000x600?text=Image+6"
+        ];
+
+        function changeImage(direction) {
+            currentIndex += direction;
+            if (currentIndex < 0) {
+                currentIndex = images.length - 1;
+            } else if (currentIndex >= images.length) {
+                currentIndex = 0;
+            }
+            document.getElementById("currentImage").src = images[currentIndex];
+        }
+    </script>
 </body>
 </html>
+
+
